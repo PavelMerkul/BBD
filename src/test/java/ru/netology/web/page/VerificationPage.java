@@ -6,19 +6,19 @@ import ru.netology.web.data.DataHelper;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-
-
-
 public class VerificationPage {
     private final SelenideElement codeField = $("[data-test-id=code] input");
-    private  final SelenideElement verifyButton = $("[data-test-id=action-verify]");
+    private final SelenideElement verifyButton = $("[data-test-id=action-verify]");
 
-    public VerificationPage() { codeField.shouldBe(visible); }
+    public VerificationPage() {
+        codeField.shouldBe(visible);
+    }
 
-    public DashboardPage validVerify(DataHelper.VerificationCode verificationCode) {
+    // Метод для верификации кода
+    public DashboardPage verify(DataHelper.VerificationCode verificationCode) {
         codeField.setValue(verificationCode.getCode());
         verifyButton.click();
-        return new DashboardPage();
-
+        return new DashboardPage(); // Возвращаем объект DashboardPage после успешной верификации
     }
+
 }

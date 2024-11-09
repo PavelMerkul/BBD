@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.web.page.DashboardPage;
 import ru.netology.web.page.LoginPage;
-
+import ru.netology.web.page.VerificationPage; // Импортируем VerificationPage
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,14 +21,15 @@ public class MoneyTransferTest {
     void setup() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
         var authInfo = getAuthInfo();
-        DashboardPage verificationPage = loginPage.validLogin(authInfo);
+        VerificationPage verificationPage = loginPage.validLogin(authInfo); // Получаем VerificationPage
         var verificationCode = getVerificationCode();
-        dashboardPage = verificationPage;
+        dashboardPage = verificationPage.verify(verificationCode); // Используем validVerify для получения DashboardPage
         firstCardInfo = getFirstCardInfo();
         secondCardInfo = getSecondCardInfo();
         firstCardBalance = dashboardPage.getCardBalance(firstCardInfo);
         secondCardBalance = dashboardPage.getCardBalance(secondCardInfo);
     }
+
 
     @Test
     void shouldTransferFromFirstToSecond() {
@@ -54,5 +55,4 @@ public class MoneyTransferTest {
         assertEquals(firstCardBalance, actualBalanceFirstCard);
         assertEquals(secondCardBalance, actualBalanceSecondCard);
     }
-
 }
